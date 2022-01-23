@@ -4,7 +4,8 @@
 load.image("epi_history.Rdata")
 
 # 01. Defining removal of infectors
-deathp assigns probabilities of death (D.Ic or D.Ih), to be linearly proportional to time of birth. 
+# deathp assigns probabilities of death (D.Ic or D.Ih), to be linearly proportional to time of birth. 
+
 deathp <- function(times){
   if(length(times)>1){
     p.death <- times
