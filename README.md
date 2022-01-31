@@ -1,6 +1,9 @@
 # MTBCPhyDyn
 Phylodynamic simulations and inference of inter-species Mycobacterium spp transmission. 
 
+determ_asymm.R
+Deterministic approximations of tree asymmetry metrics for a two-host SI model, adopted from Frost & Volz (2013). Metrics modelled are: i) normalized number of cherries, ii) normalized Sackin's index, and iii) assortativity coefficient. 
+
 stochasticsim.R
 Simulating transmission in a two-host SI model using the adaptivetau R package. 
 
