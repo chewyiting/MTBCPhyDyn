@@ -122,3 +122,50 @@ tree3$edge.length <- tree3_edge
 
 ape::write.nexus(tree3,file="YT01_p02_s3.newick")
 save.image(file="YT_01_p02_s3.Rdata")
+
+#######################################
+##  Visualizing trees                ##
+#######################################
+library(CollessLike)
+load("/Users/chewyiting/Desktop/Mycobacterium/output/simtophylo_out/shortening/YT_01_p02_s3.Rdata")
+# Visualize sampled tree
+ape::plot.phylo(tree2, show.tip.label = F)
+axisPhylo(backward=F)
+lines(x=c(0,0),y=c(1,6000),lwd=2,col="blue")
+RootNode <- length(sample_tips) +1
+obsHeight <- max(dist.nodes(tree2)[RootNode,])
+lines(x=c(obsHeight,obsHeight),y=c(1,6000),lwd=1,col="blue")
+banana <- stree_stop-orgRoot-obsHeight
+lines(x=c(tsample-orgRoot-banana,tsample-orgRoot-banana),y=c(1,6000),lwd=1,col="red")
+
+# Visualize shortened tree
+ape::plot.phylo(tree3, show.tip.label = F)
+axisPhylo(backward=F)
+lines(x=c(0,0),y=c(1,5000),lwd=2,col="blue")
+lines(x=c(tsample-orgRoot-banana,tsample-orgRoot-banana),y=c(1,5000),lwd=2,col="red")
+
+# Given a tree, calculate asymmetry metrics 
+
+# 1) Sackin's index
+treeFinalState <- function(tree){
+  nLineages <- length(tree$tip.label)
+
+  # Caclulating observed (raw), expected and normalized Sackin's index
+  rawSackin <- sackin.index(tree, norm = FALSE)
+  expSackin <- 2*nLineages*log(nLineages) 
+  normSackin <- (rawSackin-expSackin)/expSackin
+
+  return(c(rawSackin=rawSackin,normSackin=normSackin))
+}
+
+tree_study <- tree2
+mytreeStats <- treeFinalState(tree_study)
+nLineages <- length(tree_study$tip.label)
+ape::cherry(tree_study)
+
+# 2) Number of cherries
+# Manually update rawCherries given output from ape::cherry() !!
+rawCherries <- 499 
+expCherries <- nLineages/3
+normCherries <- rawCherries/nLineages
+print(c(mytreeStats,normCherries,nLineages))
