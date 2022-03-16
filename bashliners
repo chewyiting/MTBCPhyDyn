@@ -1,0 +1,11 @@
+renaming files
+
+[removing suffixes]
+for i in $( ls *.fasta ); do echo mv $i ${i%_anc.*}; done
+> mv YT01_p01_s1_anc.fasta YT01_p01_s1
+
+[adding lines to top of files, bash loop for multiple files]
+for i in $(ls YT01*); do cat ancestral.txt "$i" > "${i%}_anc.fasta"; done
+> wc -l *YT01_p01*
+   30105 YT01_p01_s1
+   30107 YT01_p01_s1_anc.fasta
